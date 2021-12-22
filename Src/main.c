@@ -22,11 +22,12 @@
 #include "main.h"
 #include "i2c.h"
 #include "gpio.h"
-#include "lis3mdltr.h"
+/*#include "lis3mdltr.h"*/
 #include "lsm6ds0.h"
+#include "lps25hb.c"
 
-uint8_t temp = 0;
-float mag[3], acc[3];
+
+float mag[3], pressure[3];
 
 void SystemClock_Config(void);
 
@@ -44,11 +45,16 @@ int main(void)
   MX_I2C1_Init();
 
   lsm6ds0_init();
+  lps25hb_init();
+
 
   while (1)
   {
 	  //os			   x      y        z
-	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
+	  /*lsm6ds0_get_acc(acc, (acc+1), (acc+2));
+	  LL_mDelay(50);*/
+
+	  lps25hb_get_pressure(pressure);
 	  LL_mDelay(50);
   }
 }
