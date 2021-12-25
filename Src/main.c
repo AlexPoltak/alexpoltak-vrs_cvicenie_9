@@ -22,9 +22,10 @@
 #include "main.h"
 #include "i2c.h"
 #include "gpio.h"
-/*#include "lis3mdltr.h"*/
+#include "lis3mdltr.h"
 #include "lsm6ds0.h"
-#include "lps25hb.c"
+#include "lps25hb.h"
+#include "hts221.h"
 
 
 float mag[3], pressure[3];
@@ -46,8 +47,7 @@ int main(void)
 
   lsm6ds0_init();
   lps25hb_init();
-
-
+  hts221_init();
   while (1)
   {
 	  //os			   x      y        z

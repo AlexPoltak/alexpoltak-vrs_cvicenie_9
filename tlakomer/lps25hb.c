@@ -1,4 +1,4 @@
-/*
+ /*
  * lps25hb.c
  *
  *  Created on: 17. 11. 2019
@@ -49,7 +49,7 @@ uint8_t lps25hb_init(void)
 
 	uint8_t val = lps25hb_read_byte(LPS25HB_WHO_AM_I_ADDRES);
 
-	if(val == LPS25HB_WHO_AM_I_ADDRES)
+	if(val == LPS25HB_WHO_AM_I_VALUE)
 	{
 		status = 1;
 	}
@@ -57,7 +57,7 @@ uint8_t lps25hb_init(void)
 	{
 		addresLPS25HB = LPS25HB_DEVICE_ADDRESS_1;
 		val = lps25hb_read_byte(LPS25HB_WHO_AM_I_ADDRES);
-		if(val == LPS25HB_WHO_AM_I_ADDRES)
+		if(val == LPS25HB_WHO_AM_I_VALUE)
 		{
 			status = 1;
 		}
@@ -69,9 +69,11 @@ uint8_t lps25hb_init(void)
 	}
 
 
-	uint8_t ctrl1 = lps25hb_read_byte(LPS25HB_ADDRESS_CTRL1);
+	/*uint8_t ctrl1 = lps25hb_read_byte(LPS25HB_ADDRESS_CTRL1);
 	ctrl1 &= ~0xFC;
-	ctrl1 |= 0x70;
+	ctrl1 |= 0x70;*/
+	uint8_t ctrl1 = 0b11000000;
+
 	lps25hb_write_byte(LPS25HB_ADDRESS_CTRL1, ctrl1);
 
 	return status;

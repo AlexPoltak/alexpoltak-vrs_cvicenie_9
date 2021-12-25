@@ -59,7 +59,8 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F3xx/Include"/>
 									<listOptionValue builtIn="false" value="../compass"/>
 									<listOptionValue builtIn="false" value="../accelerometer"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/i2c_comm/tlakomer}&quot;"/>
+									<listOptionValue builtIn="false" value="../vlhkomer"/>
+									<listOptionValue builtIn="false" value="../tlakomer"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.345877478" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -93,6 +94,8 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="accelerometer"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="compass"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tlakomer"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="vlhkomer"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -182,9 +185,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
