@@ -30,12 +30,13 @@ void lps25hb_readArray(uint8_t * data, uint8_t reg, uint8_t length,uint8_t flag)
 
 void  lps25hb_get_pressure(float *pressure)
 {
-	uint8_t data_XL[3];
+	uint8_t data_H, data_L, data_XL;
 
+	data_XL=lps25hb_read_byte(LPS25HB_PRESS_OUT_XL);
+	data_L=lps25hb_read_byte(LPS25HB_PRESS_OUT_L);
+	data_H=lps25hb_read_byte(LPS25HB_PRESS_OUT_H);
 
-	lps25hb_readArray(data_XL, LPS25HB_PRESS_OUT_XL, 3,1);
-
-	*pressure=((int32_t)(data_XL[2] << 16) | (data_XL[1] << 8) | data_XL[0])/4096;
+	*pressure=((data_H << 16) | (data_L << 8) | data_XL)/4096;
 }
 
 
