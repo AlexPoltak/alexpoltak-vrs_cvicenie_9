@@ -28,7 +28,7 @@
 #include "hts221.h"
 
 
-float mag[3], pressure[3];
+float mag[3], pressure,humidity;
 
 void SystemClock_Config(void);
 
@@ -54,7 +54,8 @@ int main(void)
 	  /*lsm6ds0_get_acc(acc, (acc+1), (acc+2));
 	  LL_mDelay(50);*/
 
-	  lps25hb_get_pressure(pressure);
+	  lps25hb_get_pressure(&pressure);
+	  hts221_get_humidity(&humidity);
 	  LL_mDelay(50);
   }
 }
