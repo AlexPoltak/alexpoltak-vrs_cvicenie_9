@@ -28,7 +28,7 @@
 #include "hts221.h"
 
 
-float mag[3], pressure,humidity;
+float mag[3], pressure,humidity,temperature;
 
 void SystemClock_Config(void);
 
@@ -56,6 +56,8 @@ int main(void)
 
 	  lps25hb_get_pressure(&pressure);
 	  hts221_get_humidity(&humidity);
+	  hts221_get_temperature(&temperature);
+
 	  LL_mDelay(50);
   }
 }

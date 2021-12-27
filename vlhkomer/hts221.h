@@ -44,5 +44,6 @@ uint8_t hts221_init(void);
 uint8_t hts221_read_byte(uint8_t reg_addr);
 void hts221_write_byte(uint8_t reg_addr, uint8_t value);
 void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length,uint8_t flag);
+void  hts221_get_temperature(float *temperature);
 void  hts221_get_humidity(float *humidity);
 

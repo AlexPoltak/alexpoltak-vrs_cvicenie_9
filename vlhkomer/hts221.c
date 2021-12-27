@@ -26,7 +26,35 @@ void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length,uint8_t flag)
 {
 	i2c_master_read(data, length, reg, addresHTS221, flag);
 }
+void  hts221_get_temperature(float *temperature)
+{
+	int16_t T0_OUT, T1_OUT, T_OUT, T0_degC_x8_u16, T1_degC_x8_u16;
+	int16_t T0_degC, T1_degC;
+	uint8_t data[4], msb;
 
+	/*Read T0_degC_x8 and T1_degC_x8*/
+	hts221_readArray(data, HTS221_T0_degC_x8, 2,1);
+
+	/*Read MSB bits of T1_degC and T0_degC */
+	msb = hts221_read_byte(HTS221_T1_T0_MSB);
+
+	/*Calculate the T0_degC and T1_degC values*/
+	T0_degC_x8_u16 = (((uint16_t)(msb & 0x03)) << 8) | ((uint16_t)data[0]);
+	T1_degC_x8_u16 = (((uint16_t)(msb & 0x0C)) << 6) | ((uint16_t)data[1]);
+	T0_degC = T0_degC_x8_u16>>3;
+	T1_degC = T1_degC_x8_u16>>3;
+
+	/*Read T0_OUT and T1_OUT*/
+	hts221_readArray(data, HTS221_T0_OUT_1, 4,1);
+	T0_OUT = (((uint16_t)data[1])<<8) | (uint16_t)data[0];
+	T1_OUT = (((uint16_t)data[3])<<8) | (uint16_t)data[2];
+	/* Read value T_OUT*/
+	hts221_readArray(data, HTS221_TEMP_OUT_L, 2,1);
+	T_OUT = (((uint16_t)data[1])<<8) | (uint16_t)data[0];
+	/*Compute the Temperature value by linear interpolation*/
+	*temperature= (T1_degC-T0_degC)*(T_OUT-T0_OUT)/(T1_OUT-T0_OUT)+T0_degC;
+
+}
 void  hts221_get_humidity(float *humidity)
 {
 	/*Read H0_rH, H1_rH */
