@@ -27,7 +27,14 @@ void lps25hb_readArray(uint8_t * data, uint8_t reg, uint8_t length,uint8_t flag)
 	i2c_master_read(data, length, reg, addresLPS25HB, flag);
 }
 
+void  lps25hb_get_temperature(float *temperature)
+{
+	const float offset = 42.5, scale = 480.0;
+	uint8_t data[2];
+	lps25hb_readArray(data, LPS25HB_TEMP_OUT_L, 2, 1);
 
+	*temperature = offset + ((int16_t)(data[1] << 8) | data[0])/scale;
+}
 void  lps25hb_get_pressure(float *pressure)
 {
 	uint8_t data_H, data_L, data_XL;
