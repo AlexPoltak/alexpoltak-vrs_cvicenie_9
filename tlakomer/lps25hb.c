@@ -6,6 +6,7 @@
  */
 
 #include "lps25hb.h"
+#include <math.h>
 
 uint8_t addresLPS25HB = LPS25HB_DEVICE_ADDRESS_0;
 
@@ -44,6 +45,18 @@ void  lps25hb_get_pressure(float *pressure)
 	data_H=lps25hb_read_byte(LPS25HB_PRESS_OUT_H);
 
 	*pressure=((data_H << 16) | (data_L << 8) | data_XL)/4096;
+}
+void lps25hb_get_altitude(float *altitude)
+{
+	const float  P0 = 1013.25;
+	float pressure = 0.0;
+	float temperature = 0.0;
+
+
+	lps25hb_get_pressure(&pressure);
+	lps25hb_get_temperature(&temperature);
+
+	*altitude = (pow(P0/pressure,1/5.257)*(temperature+273.15))/0.0065;
 }
 
 

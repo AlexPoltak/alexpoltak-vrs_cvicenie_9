@@ -37,3 +37,4 @@ void lps25hb_write_byte(uint8_t reg_addr, uint8_t value);
 void lps25hb_readArray(uint8_t * data, uint8_t reg, uint8_t length,uint8_t flag);
 void  lps25hb_get_temperature(float *temperature);
 void  lps25hb_get_pressure(float *pressure);
+void lps25hb_get_altitude(float *altitude);
