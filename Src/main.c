@@ -27,13 +27,8 @@
 #include "lps25hb.h"
 #include "hts221.h"
 
-<<<<<<< HEAD
 float pressure,humidity,temperature,temperature1,altitude;
 uint8_t buttonState=0;
-=======
-
-float pressure,humidity,temperature,altitude;
->>>>>>> parent of 7f1c631 (add configuration for display from last task)
 
 void SystemClock_Config(void);
 
