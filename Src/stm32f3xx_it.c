@@ -43,6 +43,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 uint8_t switch_state = 0;
+extern uint8_t buttonState;
 
 /* USER CODE END PV */
 
@@ -212,7 +213,10 @@ void EXTI3_IRQHandler(void)
 						BUTTON_EXTI_SAMPLES_WINDOW,
 						BUTTON_EXTI_SAMPLES_REQUIRED))
 	{
-		switch_state ^= 1;
+		buttonState=buttonState+1;
+		if(buttonState>3){
+			buttonState=0;
+		}
 	}
 
 	/* Clear EXTI4 pending register flag */
@@ -224,17 +228,17 @@ void EXTI3_IRQHandler(void)
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
 {
 	  //type your code for "checkButtonState" implementation here:
-	uint8_t button_state = 0;
+	uint8_t button_inc = 0;
 	for(int i=1;i<=samples_window;i++){
 			if((PORT->IDR & (1 << PIN))	!=edge){
-				button_state++;
+				button_inc++;
 			}
-			else{button_state=0;}
+			else{button_inc=0;}
 
-			if(button_state==samples_required){
+			if(button_inc==samples_required){
 				return 1;
 			}
-			if( (i>(samples_window-samples_required))&& (button_state==0)){
+			if( (i>(samples_window-samples_required))&& (button_inc==0)){
 				return 0;
 			}
 		}

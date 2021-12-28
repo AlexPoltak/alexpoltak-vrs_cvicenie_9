@@ -30,6 +30,7 @@
 #include "display.h"
 
 float pressure,humidity,temperature,temperature1,altitude;
+uint8_t buttonState=0;
 
 void SystemClock_Config(void);
 uint8_t length(uint8_t *);
