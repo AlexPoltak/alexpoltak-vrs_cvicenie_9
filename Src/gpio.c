@@ -36,7 +36,7 @@ void MX_GPIO_Init(void)
 {
 /*configuration pins for display*/
 	  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-
+	  LL_EXTI_InitTypeDef EXTI_InitStruct = {0};
 	  /* GPIO Ports Clock Enable */
 	  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
 	  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
@@ -68,21 +68,17 @@ void MX_GPIO_Init(void)
 
 /*configuration button PB3*/
      /*EXTI configuration*/
-      NVIC_SetPriority(EXTI3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 0));
-	  NVIC_EnableIRQ(EXTI3_IRQn);
-	 /*set EXTI source PB3*/
-	  SYSCFG->EXTICR[1] &= ~(0xFU << 0U);
-	  SYSCFG->EXTICR[1] |= (0x1 << 0U);
-	 //Enable interrupt from EXTI line 3
-	  EXTI->IMR |= EXTI_IMR_MR3;
-	 //Set EXTI trigger to falling edge
-	  EXTI->RTSR &= ~(EXTI_IMR_MR3);
-	  EXTI->FTSR |= EXTI_IMR_MR3;
-	 /*GPIO configuration button, PB3*/
-	  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-	  GPIOB->MODER &= ~(GPIO_MODER_MODER3);
-	  GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR3);
-	  GPIOB->PUPDR |= GPIO_PUPDR_PUPDR3_0;
+	  LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTB, LL_SYSCFG_EXTI_LINE3);
+	  LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_3, LL_GPIO_PULL_UP);
+	  LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_3, LL_GPIO_MODE_INPUT);
+
+	  EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_3;
+	  EXTI_InitStruct.Line_32_63 = LL_EXTI_LINE_NONE;
+	  EXTI_InitStruct.LineCommand = ENABLE;
+	  EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
+	  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_FALLING;
+	  LL_EXTI_Init(&EXTI_InitStruct);
+	  NVIC_SetPriority(EXTI3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 3, 0));
 }
 
 /* USER CODE BEGIN 2 */

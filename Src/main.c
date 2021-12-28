@@ -55,7 +55,7 @@ int main(void)
   LL_mDelay(2000);
   resetDigits();
   resetSegments();
-  MX_TIM3_Init();
+  MX_TIM2_Init();
 
   lsm6ds0_init();
   lps25hb_init();
