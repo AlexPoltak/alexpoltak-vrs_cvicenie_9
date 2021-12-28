@@ -61,6 +61,7 @@
 									<listOptionValue builtIn="false" value="../accelerometer"/>
 									<listOptionValue builtIn="false" value="../vlhkomer"/>
 									<listOptionValue builtIn="false" value="../tlakomer"/>
+									<listOptionValue builtIn="false" value="../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.345877478" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

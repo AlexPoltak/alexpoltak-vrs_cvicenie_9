@@ -26,12 +26,17 @@
 #include "lsm6ds0.h"
 #include "lps25hb.h"
 #include "hts221.h"
+#include "tim.h"
+#include "display.h"
 
 float pressure,humidity,temperature,temperature1,altitude;
 uint8_t buttonState=0;
 
 void SystemClock_Config(void);
-
+uint8_t length(uint8_t *);
+extern uint64_t disp_time;
+uint64_t saved_time;
+double num_to_display = 10;
 
 int main(void)
 {
@@ -45,10 +50,20 @@ int main(void)
 
   MX_GPIO_Init();
   MX_I2C1_Init();
+  setSegments();
+  setDigits();
+  LL_mDelay(2000);
+  resetDigits();
+  resetSegments();
+  MX_TIM3_Init();
 
   lsm6ds0_init();
   lps25hb_init();
   hts221_init();
+
+  uint8_t message[] = "ALEXAndEr_POLtAK_98362_a_bELA_CSErVEnKA_98313";
+  uint8_t lengthOfMessage = length(message);
+
   while (1)
   {
 	  //os			   x      y        z
@@ -58,9 +73,17 @@ int main(void)
 	  lps25hb_get_pressure(&pressure);
 	  hts221_get_humidity(&humidity);
 	  hts221_get_temperature(&temperature);
+	  lps25hb_get_temperature(&temperature1);
 	  lps25hb_get_altitude(&altitude);
 
 	  LL_mDelay(50);
+
+	  if(disp_time > (saved_time + 500))
+	 	 	  {
+	 	 	  	  saved_time = disp_time;
+	 	   	  	  fillBufferForDisplay(message, lengthOfMessage);
+
+	 	 	  }
   }
 }
 
@@ -68,6 +91,14 @@ int main(void)
   * @brief System Clock Configuration
   * @retval None
   */
+uint8_t length(uint8_t *str) {
+	uint8_t i = 0;
+
+	while (str[i] != '\0') {
+		i++;
+	}
+	return i;
+}
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
