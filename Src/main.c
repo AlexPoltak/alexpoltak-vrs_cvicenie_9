@@ -46,6 +46,7 @@ int main(void)
 
   SystemClock_Config();
 
+
   MX_GPIO_Init();
   MX_I2C1_Init();
 
@@ -125,7 +126,6 @@ void SystemClock_Config(void)
   LL_SetSystemCoreClock(8000000);
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_HSI);
 }
-
 
 /**
   * @brief  This function is executed in case of error occurrence.

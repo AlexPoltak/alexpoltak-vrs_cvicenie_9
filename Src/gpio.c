@@ -38,6 +38,25 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
 
+
+/*configuration button PB3*/
+
+  /*EXTI configuration*/
+    NVIC_SetPriority(EXTI3_IRQn, 2);
+    NVIC_EnableIRQ(EXTI3_IRQn);
+    /*set EXTI source PB3*/
+    SYSCFG->EXTICR[1] &= ~(0xFU << 0U);
+    SYSCFG->EXTICR[1] |= (0x1 << 0U);
+    //Enable interrupt from EXTI line 3
+    EXTI->IMR |= EXTI_IMR_MR3;
+    //Set EXTI trigger to falling edge
+    EXTI->RTSR &= ~(EXTI_IMR_MR3);
+    EXTI->FTSR |= EXTI_IMR_MR3;
+    /*GPIO configuration button, PB3*/
+    RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
+    GPIOB->MODER &= ~(GPIO_MODER_MODER3);
+    GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR3);
+    GPIOB->PUPDR |= GPIO_PUPDR_PUPDR3_0;
 }
 
 /* USER CODE BEGIN 2 */

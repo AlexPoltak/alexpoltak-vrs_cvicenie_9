@@ -42,6 +42,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+uint8_t switch_state = 0;
 
 /* USER CODE END PV */
 
@@ -203,6 +204,41 @@ void SysTick_Handler(void)
 
 
 /* USER CODE BEGIN 1 */
+void EXTI3_IRQHandler(void)
+{
+	if(checkButtonState(GPIO_PORT_BUTTON,
+						GPIO_PIN_BUTTON,
+						BUTTON_EXTI_TRIGGER,
+						BUTTON_EXTI_SAMPLES_WINDOW,
+						BUTTON_EXTI_SAMPLES_REQUIRED))
+	{
+		switch_state ^= 1;
+	}
 
+	/* Clear EXTI4 pending register flag */
+
+	//type your code for pending register flag clear here:
+	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
+}
+
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
+{
+	  //type your code for "checkButtonState" implementation here:
+	uint8_t button_state = 0;
+	for(int i=1;i<=samples_window;i++){
+			if((PORT->IDR & (1 << PIN))	!=edge){
+				button_state++;
+			}
+			else{button_state=0;}
+
+			if(button_state==samples_required){
+				return 1;
+			}
+			if( (i>(samples_window-samples_required))&& (button_state==0)){
+				return 0;
+			}
+		}
+		return 0;
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
