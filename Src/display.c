@@ -19,36 +19,36 @@ void setDigit(uint8_t pos);
 /*Reset (turn-off) all the segments of display*/
 void resetSegments(void)
 {
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11);
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_8);
-	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_1);
-	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5);
-	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_4);
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_8);
+	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11);
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
+	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_4);
+	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_1);
 }
 
 /*Set (turn-on) all the segments of display*/
 void setSegments(void)
 {
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_8);
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_1);
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_8);
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_1);
 }
 
 /* Reset (turn-off) all digits*/
 void resetDigits(void)
 {
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_0);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_6);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_7);
 }
 

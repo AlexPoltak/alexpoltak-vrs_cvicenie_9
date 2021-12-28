@@ -68,7 +68,7 @@ void MX_GPIO_Init(void)
 
 /*configuration button PB3*/
      /*EXTI configuration*/
-	  NVIC_SetPriority(EXTI3_IRQn, 2);
+      NVIC_SetPriority(EXTI3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 0));
 	  NVIC_EnableIRQ(EXTI3_IRQn);
 	 /*set EXTI source PB3*/
 	  SYSCFG->EXTICR[1] &= ~(0xFU << 0U);
