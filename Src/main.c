@@ -20,17 +20,22 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "gpio.h"
 #include "tim.h"
 #include "display.h"
 
+#include "lis3mdltr.h"
+#include "lsm6ds0.h"
+#include "lps25hb.h"
+#include "hts221.h"
+
 void SystemClock_Config(void);
 uint8_t length(uint8_t *);
-
 extern uint64_t disp_time;
-
 uint64_t saved_time;
 double num_to_display = 10;
+float pressure,humidity,temperature,temperature1,altitude;
 
 int main(void)
 {
@@ -43,6 +48,7 @@ int main(void)
   SystemClock_Config();
 
   MX_GPIO_Init();
+  MX_I2C1_Init();
 
   setSegments();
   setDigits();
@@ -54,10 +60,19 @@ int main(void)
 
   MX_TIM3_Init();
 
+  lsm6ds0_init();
+  lps25hb_init();
+  hts221_init();
+
   uint8_t message[] = "ALEXAndEr_POLtAK_98362_a_bELA_CSErVEnKA_98313";
   uint8_t lengthOfMessage = length(message);
   while (1)
   {
+	  lps25hb_get_pressure(&pressure);
+	  hts221_get_humidity(&humidity);
+	  hts221_get_temperature(&temperature);
+	  lps25hb_get_temperature(&temperature1);
+	  lps25hb_get_altitude(&altitude);
 	  if(disp_time > (saved_time + 500))
 	  {
 	  	  saved_time = disp_time;
