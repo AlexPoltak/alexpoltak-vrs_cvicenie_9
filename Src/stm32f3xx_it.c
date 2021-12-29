@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
+extern uint64_t disp_time;
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
@@ -42,8 +43,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-uint8_t switch_state = 0;
-extern uint8_t buttonState;
 
 /* USER CODE END PV */
 
@@ -186,8 +185,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-	disp_time++;
-
+  disp_time++;
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -200,50 +198,7 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f3xx.s).                    */
 /******************************************************************************/
 
-/**
-  * @brief This function handles I2C1 event global interrupt / I2C1 wake-up interrupt through EXT line 23.
-  */
-
-
 /* USER CODE BEGIN 1 */
-void EXTI3_IRQHandler(void)
-{
-	if(checkButtonState(GPIO_PORT_BUTTON,
-						GPIO_PIN_BUTTON,
-						BUTTON_EXTI_TRIGGER,
-						BUTTON_EXTI_SAMPLES_WINDOW,
-						BUTTON_EXTI_SAMPLES_REQUIRED))
-	{
-		buttonState=buttonState+1;
-		if(buttonState>3){
-			buttonState=0;
-		}
-	}
 
-	/* Clear EXTI4 pending register flag */
-
-	//type your code for pending register flag clear here:
-	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
-}
-
-uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
-{
-	  //type your code for "checkButtonState" implementation here:
-	uint8_t button_inc = 0;
-	for(int i=1;i<=samples_window;i++){
-			if((PORT->IDR & (1 << PIN))	!=edge){
-				button_inc++;
-			}
-			else{button_inc=0;}
-
-			if(button_inc==samples_required){
-				return 1;
-			}
-			if( (i>(samples_window-samples_required))&& (button_inc==0)){
-				return 0;
-			}
-		}
-		return 0;
-}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

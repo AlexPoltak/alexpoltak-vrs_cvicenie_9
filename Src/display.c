@@ -6,7 +6,6 @@
  */
 
 #include "display.h"
-#include  "stm32f3xx_ll_tim.h"
 
 display_data_ dDisplayData = {0};
 uint64_t disp_time = 0, disp_time_saved = 0;
@@ -19,36 +18,36 @@ void setDigit(uint8_t pos);
 /*Reset (turn-off) all the segments of display*/
 void resetSegments(void)
 {
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_8);
-	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5);
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11);
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
-	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_4);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_8);
 	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_1);
+	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5);
+	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_4);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
+	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
 }
 
 /*Set (turn-on) all the segments of display*/
 void setSegments(void)
 {
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_8);
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_8);
 	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_1);
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_1);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
 }
 
 /* Reset (turn-off) all digits*/
 void resetDigits(void)
 {
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_0);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
-	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
+	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_6);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_7);
 }
 
@@ -648,13 +647,13 @@ void updateDisplay(void)
 }
 
 //Update displayed data and keep display ON
-void TIM2_IRQHandler(void)
+void TIM3_IRQHandler(void)
 {
-	if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM3))
 	{
 		updateDisplay();
 	}
 
-	LL_TIM_ClearFlag_UPDATE(TIM2);
+	LL_TIM_ClearFlag_UPDATE(TIM3);
 }
 
