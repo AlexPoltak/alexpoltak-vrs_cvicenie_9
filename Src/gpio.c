@@ -79,6 +79,8 @@ void MX_GPIO_Init(void)
 	  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_FALLING;
 	  LL_EXTI_Init(&EXTI_InitStruct);
 	  NVIC_SetPriority(EXTI3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 3, 0));
+      NVIC_EnableIRQ(EXTI3_IRQn);
+
 }
 
 /* USER CODE BEGIN 2 */
