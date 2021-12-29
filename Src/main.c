@@ -29,6 +29,8 @@
 #include "lsm6ds0.h"
 #include "lps25hb.h"
 #include "hts221.h"
+#include <string.h>
+#include <math.h>
 
 void SystemClock_Config(void);
 uint8_t length(uint8_t *);
@@ -37,6 +39,7 @@ uint64_t saved_time;
 double num_to_display = 10;
 float pressure,humidity,temperature,temperature1,altitude;
 uint8_t buttonState=0;
+char temp_s[4],hum_s[2],press_s[6],alt_s[5];
 
 int main(void)
 {
@@ -65,7 +68,7 @@ int main(void)
   lps25hb_init();
   hts221_init();
 
-  uint8_t message[] = "ALEXAndEr_POLtAK_98362_a_bELA_CSErVEnKA_98313";
+  uint8_t message[] = "TEMP";
   uint8_t lengthOfMessage = length(message);
   while (1)
   {
@@ -74,6 +77,42 @@ int main(void)
 	  hts221_get_temperature(&temperature);
 	  lps25hb_get_temperature(&temperature1);
 	  lps25hb_get_altitude(&altitude);
+
+	  if(buttonState == 0){
+
+	  		  char temp[] = "TEMP_";
+
+	  		  sprintf(temp_s, "%.1f", temperature);
+	  		  strcat(temp, temp_s);
+	  		  memcpy (message, temp, sizeof(temp));
+	  		  lengthOfMessage=length(message);
+	  	  }
+	  	  else if(buttonState == 1){
+	  		  char hum[] = "HUM_";
+
+	  		  sprintf(hum_s, "%.0f", humidity);
+	  		  strcat(hum, hum_s);
+	  		  memcpy (message, hum, sizeof(hum));
+	  		  lengthOfMessage=length(message);
+	  	  }
+	  	  else if(buttonState == 2){
+	  		  char bar[] = "BAR_";
+
+	  		  sprintf(press_s, "%.2f", pressure);
+	  		  strcat(bar, press_s);
+	  		  memcpy (message, bar, sizeof(bar));
+	  		  lengthOfMessage=length(message);
+	  	  }
+	  	  else if(buttonState == 3){
+	  		  char alt[] = "ALT_";
+
+	  		  sprintf(alt_s, "%.1f", altitude);
+	  		  strcat(alt, alt_s);
+	  		  memcpy (message, alt, sizeof(alt));
+	  		  lengthOfMessage=length(message);
+	  	  }
+
+
 	  if(disp_time > (saved_time + 500))
 	  {
 	  	  saved_time = disp_time;
