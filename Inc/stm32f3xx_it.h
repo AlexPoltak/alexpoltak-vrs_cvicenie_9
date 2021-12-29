@@ -39,11 +39,11 @@
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 #define		GPIO_PORT_BUTTON				GPIOB
-#define		GPIO_PIN_BUTTON					3
+#define		GPIO_PIN_BUTTON					LL_GPIO_PIN_3
 
 // defines for "checkButtonState"
-#define		TRIGGER_RISE					0
-#define		TRIGGER_FALL					1
+#define		TRIGGER_RISE					1
+#define		TRIGGER_FALL					0
 
 #define		BUTTON_EXTI_TRIGGER				TRIGGER_FALL
 #define		BUTTON_EXTI_SAMPLES_WINDOW		30

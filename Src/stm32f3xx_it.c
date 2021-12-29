@@ -214,7 +214,7 @@ void EXTI3_IRQHandler(void)
 		}
 	}
 
-	/* Clear EXTI4 pending register flag */
+	/* Clear EXTI3 pending register flag */
 
 	//type your code for pending register flag clear here:
 	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
