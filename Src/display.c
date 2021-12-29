@@ -648,7 +648,7 @@ void updateDisplay(void)
 }
 
 //Update displayed data and keep display ON
-void TIM3_IRQHandler(void)
+void TIM2_IRQHandler(void)
 {
 	if(LL_TIM_IsActiveFlag_UPDATE(TIM3))
 	{
