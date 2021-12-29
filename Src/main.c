@@ -36,7 +36,6 @@ void SystemClock_Config(void);
 uint8_t length(uint8_t *);
 extern uint64_t disp_time;
 uint64_t saved_time;
-double num_to_display = 10;
 float pressure,humidity,temperature,temperature1,altitude;
 uint8_t buttonState=0;
 char temp_s[4],hum_s[2],press_s[6],alt_s[5];
@@ -113,11 +112,15 @@ int main(void)
 	  	  }
 
 
-	  if(disp_time > (saved_time + 500))
+	  if(disp_time > (saved_time + 1000))
 	  {
 	  	  saved_time = disp_time;
   	  	  fillBufferForDisplay(message, lengthOfMessage);
 
+	  }
+	  else{
+		  disp_time=0;
+		  saved_time=0;
 	  }
   }
 

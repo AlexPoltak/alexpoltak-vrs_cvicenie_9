@@ -632,16 +632,15 @@ void setDigit(uint8_t pos)
  */
 void updateDisplay(void)
 {
-
+	resetDigits();
+	resetSegments();
 	for(uint8_t i = 0; i < 4; i++)
 	{
 		setDigit(i);
 		displayCharacter(buffer[i]);
 
 		disp_time_saved = disp_time;
-		while((disp_time_saved + 2) > disp_time){};
-		resetDigits();
-		resetSegments();
+/*		while((disp_time_saved + 2) > disp_time){};*/
 	}
 
 }
