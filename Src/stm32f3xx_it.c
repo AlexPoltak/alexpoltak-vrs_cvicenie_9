@@ -223,7 +223,7 @@ void EXTI3_IRQHandler(void)
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
 {
 	  //type your code for "checkButtonState" implementation here:
-	uint8_t button_inc = 0;
+	static uint8_t button_inc = 0;
 	for(int i=1;i<=samples_window;i++){
 			if((PORT->IDR & (1 << PIN))	!=edge){
 				button_inc++;

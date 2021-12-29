@@ -87,7 +87,7 @@ int main(void)
 	  		  memcpy (message, temp, sizeof(temp));
 	  		  lengthOfMessage=length(message);
 	  	  }
-	  	  else if(buttonState == 1){
+	  else if(buttonState == 1){
 	  		  char hum[] = "HUM_";
 
 	  		  sprintf(hum_s, "%.0f", humidity);
@@ -95,7 +95,7 @@ int main(void)
 	  		  memcpy (message, hum, sizeof(hum));
 	  		  lengthOfMessage=length(message);
 	  	  }
-	  	  else if(buttonState == 2){
+	  else if(buttonState == 2){
 	  		  char bar[] = "BAR_";
 
 	  		  sprintf(press_s, "%.2f", pressure);
@@ -103,7 +103,7 @@ int main(void)
 	  		  memcpy (message, bar, sizeof(bar));
 	  		  lengthOfMessage=length(message);
 	  	  }
-	  	  else if(buttonState == 3){
+	  else if(buttonState == 3){
 	  		  char alt[] = "ALT_";
 
 	  		  sprintf(alt_s, "%.1f", altitude);
