@@ -36,6 +36,7 @@ extern uint64_t disp_time;
 uint64_t saved_time;
 double num_to_display = 10;
 float pressure,humidity,temperature,temperature1,altitude;
+uint8_t buttonState=0;
 
 int main(void)
 {
