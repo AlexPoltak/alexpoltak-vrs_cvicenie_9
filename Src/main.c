@@ -119,10 +119,6 @@ int main(void)
   	  	  fillBufferForDisplay(message, lengthOfMessage);
 
 	  }
-	  else{
-	 		  disp_time=0;
-	 		  saved_time=0;
-	 	  }
   }
 
 }

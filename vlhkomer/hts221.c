@@ -107,10 +107,10 @@ uint8_t hts221_init(void)
 	}
 
 
-	uint8_t ctrl1 = hts221_read_byte(HTS221_ADDRESS_CTRL1);
+	/*uint8_t ctrl1 = hts221_read_byte(HTS221_ADDRESS_CTRL1);
 	ctrl1 &= ~0xFC;
-	ctrl1 |= 0x70;
-	hts221_write_byte(HTS221_ADDRESS_CTRL1, ctrl1);
+	ctrl1 |= 0x70;*/
+	hts221_write_byte(HTS221_ADDRESS_CTRL1, 10000001);
 
 	return status;
 }

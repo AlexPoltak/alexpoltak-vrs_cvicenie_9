@@ -31,12 +31,10 @@ void lps25hb_readArray(uint8_t * data, uint8_t reg, uint8_t length,uint8_t flag)
 void  lps25hb_get_temperature(float *temperature)
 {
 	const float  scale = 100.0;
-	uint8_t data_H, data_L;
+	uint8_t data[2];
+	lps25hb_readArray(data, LPS25HB_TEMP_OUT_L, 2, 1);
 
-	data_L=lps25hb_read_byte(LPS25HB_PRESS_OUT_L);
-	data_H=lps25hb_read_byte(LPS25HB_PRESS_OUT_H);
-
-	*temperature=((data_H << 8) | data_L)/scale;
+	*temperature = ((int16_t)(data[1] << 8) | data[0])/scale;
 }
 void  lps25hb_get_pressure(float *pressure)
 {
@@ -91,13 +89,8 @@ uint8_t lps25hb_init(void)
 		}
 	}
 
-
-	/*uint8_t ctrl1 = lps25hb_read_byte(LPS25HB_ADDRESS_CTRL1);
-	ctrl1 &= ~0xFC;
-	ctrl1 |= 0x70;*/
-	uint8_t ctrl1 = 0b11000000;
-
-	lps25hb_write_byte(LPS25HB_ADDRESS_CTRL1, ctrl1);
+	lps25hb_write_byte(LPS25HB_ADDRESS_CTRL1, 0b01010000);
+	lps25hb_write_byte(LPS25HB_ADDRESS_CTRL2, 0b00010000);
 
 	return status;
 }

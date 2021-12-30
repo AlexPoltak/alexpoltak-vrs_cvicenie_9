@@ -27,6 +27,8 @@
 
 
 #define 	LPS25HB_ADDRESS_CTRL1					0x10
+#define 	LPS25HB_ADDRESS_CTRL2					0x11
+
 
 uint8_t lps25hb_init(void);
 uint8_t lps25hb_read_byte(uint8_t reg_addr);
