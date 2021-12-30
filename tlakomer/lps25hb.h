@@ -9,10 +9,10 @@
 #include "i2c.h"
 
 
-#define 	LPS25HB_DEVICE_ADDRESS_0				0xB8
-#define 	LPS25HB_DEVICE_ADDRESS_1				0xBA
+#define 	LPS25HB_DEVICE_ADDRESS_0				0xB9
+#define 	LPS25HB_DEVICE_ADDRESS_1				0xBB
 
-#define 	LPS25HB_WHO_AM_I_VALUE					0xBD
+#define 	LPS25HB_WHO_AM_I_VALUE					0xB1
 #define 	LPS25HB_WHO_AM_I_ADDRES					0x0F
 
 
@@ -26,10 +26,7 @@
 #define		LPS25HB_TEMP_OUT_H						0x2C
 
 
-#define 	LPS25HB_ADDRESS_CTRL1					0x20
-
-
-#define 	LPS25HB_ADDRESS_TEMP_L					0x20
+#define 	LPS25HB_ADDRESS_CTRL1					0x10
 
 uint8_t lps25hb_init(void);
 uint8_t lps25hb_read_byte(uint8_t reg_addr);
