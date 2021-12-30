@@ -113,12 +113,16 @@ int main(void)
 	  	  }
 
 
-	  if(disp_time > (saved_time + 500))
+	  if(disp_time > (saved_time + 1000))
 	  {
 	  	  saved_time = disp_time;
   	  	  fillBufferForDisplay(message, lengthOfMessage);
 
 	  }
+	  else{
+	 		  disp_time=0;
+	 		  saved_time=0;
+	 	  }
   }
 
 }
