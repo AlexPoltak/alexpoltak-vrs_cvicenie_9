@@ -25,7 +25,7 @@
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 extern uint64_t disp_time;
-
+extern uint8_t switch_state;
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 
@@ -57,7 +57,6 @@ extern uint64_t disp_time;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern uint8_t buttonState;
 
 /* USER CODE BEGIN EV */
 
@@ -202,37 +201,20 @@ void SysTick_Handler(void)
 /* USER CODE BEGIN 1 */
 void EXTI3_IRQHandler(void)
 {
-	if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET) {
-	/*if(checkButtonState(GPIO_PORT_BUTTON,
-						GPIO_PIN_BUTTON,
-						BUTTON_EXTI_TRIGGER,
-						BUTTON_EXTI_SAMPLES_WINDOW,
-						BUTTON_EXTI_SAMPLES_REQUIRED))
-	{*/
-		buttonState=buttonState+1;
-		if(buttonState>3){
-			buttonState=0;
-		}
+  /* USER CODE BEGIN EXTI3_IRQn 0 */
+	checkButtonState(GPIO_PORT_BUTTON,GPIO_PIN_BUTTON);
 
+  /* USER CODE END EXTI3_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
+    /* USER CODE BEGIN LL_EXTI_LINE_3 */
 
-	/* Clear EXTI3 pending register flag */
+    /* USER CODE END LL_EXTI_LINE_3 */
+   }
+  /* USER CODE BEGIN EXTI3_IRQn 1 */
 
-	//type your code for pending register flag clear here:
-	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
-	}
-}
-
-uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
-{
-	  //type your code for "checkButtonState" implementation here:
-	uint16_t button = 0, end = 0;
-
-	while (button < samples_required && end < samples_window) {
-		button = (!!(PORT->IDR & PIN) == edge) ? (button + 1) : (0);
-		end++;
-	}
-
-	return ((button >= samples_required) && (end <= samples_window));
+  /* USER CODE END EXTI3_IRQn 1 */
 }
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

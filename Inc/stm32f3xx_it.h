@@ -38,19 +38,6 @@
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-#define		GPIO_PORT_BUTTON				GPIOB
-#define		GPIO_PIN_BUTTON					LL_GPIO_PIN_3
-
-// defines for "checkButtonState"
-#define		TRIGGER_RISE					1
-#define		TRIGGER_FALL					0
-
-#define		BUTTON_EXTI_TRIGGER				TRIGGER_FALL
-#define		BUTTON_EXTI_SAMPLES_WINDOW		30
-#define		BUTTON_EXTI_SAMPLES_REQUIRED	20
-
-
- uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required);
 
 /* USER CODE END EC */
 
@@ -70,6 +57,7 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 /* USER CODE BEGIN EFP */
+void EXTI3_IRQHandler(void);
 
 /* USER CODE END EFP */
 

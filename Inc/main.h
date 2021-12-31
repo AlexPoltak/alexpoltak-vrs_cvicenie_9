@@ -28,7 +28,6 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_ll_i2c.h"
 #include "stm32f3xx_ll_rcc.h"
 #include "stm32f3xx_ll_bus.h"
 #include "stm32f3xx_ll_system.h"
@@ -41,12 +40,14 @@ extern "C" {
 #include "stm32f3xx.h"
 #include "stm32f3xx_ll_gpio.h"
 
+
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stm32f3xx_ll_i2c.h"
 
 /* USER CODE END Includes */
 
@@ -86,6 +87,18 @@ void Error_Handler(void);
                                                                  0 bit  for subpriority */
 #endif
 /* USER CODE BEGIN Private defines */
+#define Tlacidlo_Pin LL_GPIO_PIN_3
+#define Tlacidlo_GPIO_Port GPIOB
+#define Tlacidlo_EXTI_IRQn EXTI3_IRQn
+
+#define		GPIO_PORT_BUTTON				GPIOB
+#define		GPIO_PIN_BUTTON					3
+
+// defines for "checkButtonState"
+
+#define		BUTTON_EXTI_TRIGGER				TRIGGER_FALL
+
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN);
 
 /* USER CODE END Private defines */
 

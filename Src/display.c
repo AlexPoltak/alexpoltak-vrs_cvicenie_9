@@ -10,7 +10,6 @@
 display_data_ dDisplayData = {0};
 uint64_t disp_time = 0, disp_time_saved = 0;
 uint8_t buffer[4];
-static uint8_t order = 0;
 
 void updateDisplay(void);
 void setDigit(uint8_t pos);
@@ -442,29 +441,25 @@ void set_(void)
 	LL_GPIO_ResetOutputPin(SEGMENTD_PORT, SEGMENTD_PIN);
 
 }
+void setminus(void)
+{
+	// 	G
+	LL_GPIO_ResetOutputPin(SEGMENTG_PORT, SEGMENTG_PIN);
+
+}
 /**
  * Pre-process number before it is displayed. Extract digits of the number
  */
 void fillBufferForDisplay(uint8_t *msg, uint8_t len) {
 	static uint8_t index = 0;
 
-if(index==3){order=0;}
-if(index==len-3){order=1;}
-
-if(order==0){
 	for (uint8_t i = 0; i < 4; i++) {
 			buffer[i] = msg[(i + index)];
 		}
 
   	index++;
-}
-if(order==1){
-	for (uint8_t i = 0; i< 4; i++) {
-			buffer[3-i] = msg[(index-i)];
-		}
-
-  	index--;
-}
+  	if(len-index<4)
+  	{index = 0;}
 
 }
 void displayCharacter(uint8_t ch)
@@ -599,6 +594,9 @@ void displayCharacter(uint8_t ch)
 				case '_':
 						set_();
 						break;
+				case '-':
+						setminus();
+						break;
 
 			}
 	}
@@ -647,13 +645,13 @@ void updateDisplay(void)
 }
 
 //Update displayed data and keep display ON
-void TIM3_IRQHandler(void)
+void TIM2_IRQHandler(void)
 {
-	if(LL_TIM_IsActiveFlag_UPDATE(TIM3))
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
 	{
 		updateDisplay();
 	}
 
-	LL_TIM_ClearFlag_UPDATE(TIM3);
+	LL_TIM_ClearFlag_UPDATE(TIM2);
 }
 

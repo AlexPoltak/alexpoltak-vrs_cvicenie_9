@@ -38,22 +38,22 @@ void  lps25hb_get_temperature(float *temperature)
 }
 void  lps25hb_get_pressure(float *pressure)
 {
-	uint8_t data[3];
-	lps25hb_readArray(data, LPS25HB_TEMP_OUT_L, 3, 1);
+	uint8_t PressOut_H, PressOut_L, PressOut_XL;
 
-	*pressure=((int32_t)(data[2] << 16) | (data[1] << 8) | data[0])/4096;
+		PressOut_H = lps25hb_read_byte(0x2A);
+		PressOut_L = lps25hb_read_byte(0x29);
+		PressOut_XL = lps25hb_read_byte(0x28);
+
+		*pressure = (float)(PressOut_H << 16 | PressOut_L << 8 | PressOut_XL) / 4096.0;
 }
 void lps25hb_get_altitude(float *altitude)
 {
-	const float  P0 = 1013.25;
-	float pressure = 0.0;
-	float temperature = 0.0;
+	const float R = 8.3145, M = 0.029, g = 9.8067, T0 = 288.16, p0 = 1013.25;
+		float pressure = 0;
 
+		lps25hb_get_pressure(&pressure);
 
-	lps25hb_get_pressure(&pressure);
-	lps25hb_get_temperature(&temperature);
-
-	*altitude = (pow(P0/pressure,1/5.257)*(temperature+273.15))/0.0065;
+		*altitude = R*T0/(M*g)*log(p0/pressure);
 }
 
 

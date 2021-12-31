@@ -20,108 +20,146 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "i2c.h"
 #include "gpio.h"
 #include "tim.h"
 #include "display.h"
-
-#include "lis3mdltr.h"
-#include "lsm6ds0.h"
-#include "lps25hb.h"
-#include "hts221.h"
 #include <string.h>
+
+#include "i2c.h"
+#include "../vlhkomer/hts221.h"
+#include "../accelerometer/lsm6ds0.h"
 #include <math.h>
+#include "../tlakomer/lps25hb.h"
 
 void SystemClock_Config(void);
+
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN);
 uint8_t length(uint8_t *);
 extern uint64_t disp_time;
 uint64_t saved_time;
 double num_to_display = 10;
 float pressure,humidity,temperature,temperature1,altitude;
-uint8_t buttonState=0;
-char temp_s[4],hum_s[2],press_s[6],alt_s[5];
+static uint8_t button_state=0;
+char temp_s[10],hum_s[10],press_s[10],alt_s[10];
 
 int main(void)
 {
 
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+	  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+	  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+	  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
-  SystemClock_Config();
+	  SystemClock_Config();
 
-  MX_GPIO_Init();
-  MX_I2C1_Init();
+	  MX_GPIO_Init();
+	  MX_I2C1_Init();
 
-  setSegments();
-  setDigits();
+	  setSegments();
+	  setDigits();
 
-  LL_mDelay(2000);
+	  LL_mDelay(2000);
 
-  resetDigits();
-  resetSegments();
+	  resetDigits();
+	  resetSegments();
 
-  MX_TIM3_Init();
+	  MX_TIM2_Init();
 
-  lsm6ds0_init();
-  lps25hb_init();
-  hts221_init();
+	  lps25hb_init();
+	  hts221_init();
 
-  uint8_t message[] = "TEMP";
-  uint8_t lengthOfMessage = length(message);
-  while (1)
-  {
-	  lps25hb_get_pressure(&pressure);
-	  hts221_get_humidity(&humidity);
-	  hts221_get_temperature(&temperature);
-	  lps25hb_get_temperature(&temperature1);
-	  lps25hb_get_altitude(&altitude);
-
-	  if(buttonState == 0){
-
-	  		  char temp[] = "TEMP_";
-
-	  		  sprintf(temp_s, "%.1f", temperature);
-	  		  strcat(temp, temp_s);
-	  		  memcpy (message, temp, sizeof(temp));
-	  		  lengthOfMessage=length(message);
-	  	  }
-	  else if(buttonState == 1){
-	  		  char hum[] = "HUM_";
-
-	  		  sprintf(hum_s, "%.0f", humidity);
-	  		  strcat(hum, hum_s);
-	  		  memcpy (message, hum, sizeof(hum));
-	  		  lengthOfMessage=length(message);
-	  	  }
-	  else if(buttonState == 2){
-	  		  char bar[] = "BAR_";
-
-	  		  sprintf(press_s, "%.2f", pressure);
-	  		  strcat(bar, press_s);
-	  		  memcpy (message, bar, sizeof(bar));
-	  		  lengthOfMessage=length(message);
-	  	  }
-	  else if(buttonState == 3){
-	  		  char alt[] = "ALT_";
-
-	  		  sprintf(alt_s, "%.1f", altitude);
-	  		  strcat(alt, alt_s);
-	  		  memcpy (message, alt, sizeof(alt));
-	  		  lengthOfMessage=length(message);
-	  	  }
+	  uint8_t message[] = "tEMP";
+	  uint8_t lengthOfMessage = length(message);
 
 
-	  if(disp_time > (saved_time + 1000))
+	  while (1)
 	  {
-	  	  saved_time = disp_time;
-  	  	  fillBufferForDisplay(message, lengthOfMessage);
+		  lps25hb_get_pressure(&pressure);
+		  hts221_get_humidity(&humidity);
+		  lps25hb_get_temperature(&temperature1);
+		  lps25hb_get_altitude(&altitude);
+		  if(temperature1 < -99.9){
+			  temperature1 = -99.9;
+		  	  }
+		  else if(temperature1 > 99.9){
+			  temperature1 = 99.9;
+		  	  }
+		  if(humidity < 0){
+			  humidity = 0;
+		  	  }
+		  else if(humidity > 99){
+			  humidity = 99;
+		  	  }
+		  if(pressure < -9999.99){
+			  pressure = -9999.99;
+		  	  }
+		  else if(pressure > 9999.99){
+			  pressure = 9999.99;
+		  	  }
+		  if(altitude < -9999.9){
+			  altitude = -9999.9;
+		  	  }
+		  else if(altitude > 9999.9){
+			  altitude = 9999.9;
+		  	  }
 
+		  if(button_state == 0){
+
+		  		  char temp[] = "tMP_";
+		  		  memset(message,0,10);
+
+		  		  sprintf(temp_s, "%.1f", temperature1);
+		  		  strcat(temp, temp_s);
+
+		  		  memcpy (message, temp, strlen(temp));
+		  		  lengthOfMessage=length(message);
+		  	  }
+		  if(button_state == 1){
+		  		  char hum[] = "HUM_";
+		  		  memset(message,0,10);
+
+		  		  sprintf(hum_s, "%.0f", humidity);
+		  		  strcat(hum, hum_s);
+
+		  		  memcpy (message, hum, strlen(hum));
+		  		  lengthOfMessage=length(message);
+		  	  }
+		  if(button_state == 2){
+		  		  char bar[] = "bAr_";
+		  		  memset(message,0,10);
+
+		  		  sprintf(press_s, "%.2f", pressure);
+		  		  strcat(bar, press_s);
+
+		  		  memcpy (message, bar, strlen(bar));
+		  		  lengthOfMessage=length(message);
+		  	  }
+		  if(button_state == 3){
+		  		  char alt[] = "ALt_";
+		  		memset(message,0,10);
+
+		  		  sprintf(alt_s, "%.1f", altitude);
+		  		  strcat(alt, alt_s);
+
+		  		  memcpy (message, alt, strlen(alt));
+		  		  lengthOfMessage=length(message);
+		  	  }
+
+
+		  if(disp_time > (saved_time + 1000))
+		  {
+		  	  saved_time = disp_time;
+	  	  	  fillBufferForDisplay(message, lengthOfMessage);
+
+		  }
 	  }
-  }
 
 }
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
 uint8_t length(uint8_t *str) {
 	uint8_t i = 0;
 
@@ -131,10 +169,19 @@ uint8_t length(uint8_t *str) {
 	return i;
 }
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN)
+{
+	  //type your code for "checkButtonState" implementation here:
+
+		button_state++;
+
+		if(button_state > 3){
+			button_state = 0;
+		}
+		return 1;
+
+}
+
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
@@ -201,3 +248,4 @@ void assert_failed(char *file, uint32_t line)
 #endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
