@@ -202,22 +202,24 @@ void SysTick_Handler(void)
 /* USER CODE BEGIN 1 */
 void EXTI3_IRQHandler(void)
 {
-	if(checkButtonState(GPIO_PORT_BUTTON,
+	if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET) {
+	/*if(checkButtonState(GPIO_PORT_BUTTON,
 						GPIO_PIN_BUTTON,
 						BUTTON_EXTI_TRIGGER,
 						BUTTON_EXTI_SAMPLES_WINDOW,
 						BUTTON_EXTI_SAMPLES_REQUIRED))
-	{
+	{*/
 		buttonState=buttonState+1;
 		if(buttonState>3){
 			buttonState=0;
 		}
-	}
+
 
 	/* Clear EXTI3 pending register flag */
 
 	//type your code for pending register flag clear here:
 	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
+	}
 }
 
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)

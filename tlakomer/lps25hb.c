@@ -38,13 +38,10 @@ void  lps25hb_get_temperature(float *temperature)
 }
 void  lps25hb_get_pressure(float *pressure)
 {
-	uint8_t data_H, data_L, data_XL;
+	uint8_t data[3];
+	lps25hb_readArray(data, LPS25HB_TEMP_OUT_L, 3, 1);
 
-	data_XL=lps25hb_read_byte(LPS25HB_PRESS_OUT_XL);
-	data_L=lps25hb_read_byte(LPS25HB_PRESS_OUT_L);
-	data_H=lps25hb_read_byte(LPS25HB_PRESS_OUT_H);
-
-	*pressure=((data_H << 16) | (data_L << 8) | data_XL)/4096;
+	*pressure=((int32_t)(data[2] << 16) | (data[1] << 8) | data[0])/4096;
 }
 void lps25hb_get_altitude(float *altitude)
 {
